@@ -8,8 +8,8 @@ import java.util.Locale;
 public class Empresa {
     private String nit;
     private String nombre;
-    private double totalRecaudado=0.0;
-    private LinkedList<Vehiculo>historialPeaje=new LinkedList<>();
+    private double totalRecaudado = 0.0;
+    private LinkedList<Vehiculo> historialPeaje = new LinkedList<>();
     private LinkedList<Conductor> listaConductores;
     private LinkedList<Recaudador> listaRecaudadores;
     private LinkedList<Vehiculo> listaVehiculos;
@@ -152,48 +152,51 @@ public class Empresa {
             String tipo = "";
             if (vehiculo instanceof Carro) {
                 tipo = "Carro";
-            }else if(vehiculo instanceof Moto){
-                tipo="Moto";
-            }else if(vehiculo instanceof Camion){
-                tipo="Camion";
+            } else if (vehiculo instanceof Moto) {
+                tipo = "Moto";
+            } else if (vehiculo instanceof Camion) {
+                tipo = "Camion";
             }
             double valorPeaje = vehiculo.calcularPeaje();
             recaudoTotal += valorPeaje;
-            System.out.println("Tipo: " + tipo +" Placa: "+ vehiculo.getPlaca() + " Peaje: " + valorPeaje);
+            System.out.println("Tipo: " + tipo + " Placa: " + vehiculo.getPlaca() + " Peaje: " + valorPeaje);
         }
         System.out.println("Total recaudado es de: " + recaudoTotal);
     }
+
     //Reporte
-    public void generarReporteVehiculos(){
+    public void generarReporteVehiculos() {
         String reporte = "";
         for (Vehiculo vehiculo : listaVehiculos) {
             reporte += vehiculo.descripcion();
         }
         System.out.println(reporte);
     }
+
     //Consultar total de dinero
-    public double consultarTotalPeajePorPersona(String documento){
-        double totalPeaje=0.0;
-        for(Conductor conductor : listaConductores){
-            if(conductor.getDocumento().equals(documento)){
-                for(Vehiculo vehiculo: conductor.getListaVehiculos()){
-                    totalPeaje+= vehiculo.calcularPeaje();
+    public double consultarTotalPeajePorPersona(String documento) {
+        double totalPeaje = 0.0;
+        for (Conductor conductor : listaConductores) {
+            if (conductor.getDocumento().equals(documento)) {
+                for (Vehiculo vehiculo : conductor.getListaVehiculos()) {
+                    totalPeaje += vehiculo.calcularPeaje();
                 }
             }
         }
         return totalPeaje;
     }
+
     //Lista de vehiculos Conductor
-    public LinkedList<Vehiculo>obtenerVehiculoPorConductor(String documento, String tipoVehiculo){
-        LinkedList<Vehiculo>nuevaListaVehiculos=new LinkedList<>();
-        for(Conductor conductor:listaConductores){
-            if(conductor.getDocumento().equals(documento)){
-                for(Vehiculo vehiculo:conductor.getListaVehiculos()){
-                    if(tipoVehiculo.equalsIgnoreCase("Carro") && vehiculo instanceof Carro){
+    public LinkedList<Vehiculo> obtenerVehiculoPorConductor(String documento, String tipoVehiculo) {
+        LinkedList<Vehiculo> nuevaListaVehiculos = new LinkedList<>();
+        for (Conductor conductor : listaConductores) {
+            if (conductor.getDocumento().equals(documento)) {
+                for (Vehiculo vehiculo : conductor.getListaVehiculos()) {
+                    if (tipoVehiculo.equalsIgnoreCase("Carro") && vehiculo instanceof Carro) {
                         nuevaListaVehiculos.add(vehiculo);
-                    }else if(tipoVehiculo.equalsIgnoreCase("Moto") && vehiculo instanceof Moto){
+                    } else if (tipoVehiculo.equalsIgnoreCase("Moto") && vehiculo instanceof Moto) {
                         nuevaListaVehiculos.add(vehiculo);
-                    }else if(tipoVehiculo.equalsIgnoreCase("Camion") && vehiculo instanceof Camion){
+                    } else if (tipoVehiculo.equalsIgnoreCase("Camion") && vehiculo instanceof Camion) {
                         nuevaListaVehiculos.add(vehiculo);
                     }
                 }
@@ -201,22 +204,45 @@ public class Empresa {
         }
         return nuevaListaVehiculos;
     }
+
     //Calcular valor del peaje de un vehiculo
-    public double registrarPasoVehiculo(String placa){
-        for(Vehiculo vehiculo: listaVehiculos){
-            if(vehiculo.getPlaca().equals(placa)){
-                double valorPeaje=vehiculo.calcularPeaje();
-                totalRecaudado+=valorPeaje;
+    public double registrarPasoVehiculo(String placa) {
+        for (Vehiculo vehiculo : listaVehiculos) {
+            if (vehiculo.getPlaca().equals(placa)) {
+                double valorPeaje = vehiculo.calcularPeaje();
+                totalRecaudado += valorPeaje;
                 historialPeaje.add(vehiculo);
                 return valorPeaje;
             }
         }
         return -1;
     }
-    //Buscar el recaudador por nombre completo (nombre+apellido)
-    public Recaudador buscarRecaudadorPorNombre(String nombreCompleto){
-        String nombreLimpio=nombreCompleto.trim().toLowerCase().replaceAll("","");
 
+    //Buscar el recaudador por nombre completo (nombre+apellido)
+    public Recaudador buscarRecaudadorPorNombre(String nombreCompleto) {
+        for (Recaudador recaudador : listaRecaudadores) {
+            String nombreLimpio = (recaudador.getNombre() + recaudador.getApellido()).trim().toLowerCase().replaceAll("\\s+", "");
+            if (nombreCompleto.equals(nombreLimpio)) {
+                return recaudador;
+            }
+        }
         return null;
+    }
+
+    //Identificar los conductores que tiene al menos un camion
+    public LinkedList<Conductor> obtenerConductoresConCamionAltoTonelaje() {
+        LinkedList<Conductor> nuevaListaConductores = new LinkedList<>();
+        for (Conductor conductor : listaConductores) {
+            for (Vehiculo vehiculo : conductor.getListaVehiculos()) {
+                if (vehiculo instanceof Camion) {
+                    Camion camion = (Camion) vehiculo;
+                    if (camion.getCargaToneladas() > 10) {
+                        nuevaListaConductores.add(conductor);
+                        break;
+                    }
+                }
+            }
+        }
+        return nuevaListaConductores;
     }
 }
