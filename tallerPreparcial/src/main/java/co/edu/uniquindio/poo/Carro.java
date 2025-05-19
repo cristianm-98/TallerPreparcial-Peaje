@@ -25,4 +25,22 @@ public class Carro extends Vehiculo {
     public void setPublico(boolean publico) {
         this.publico = publico;
     }
+
+    @Override
+    public double calcularPeaje() {
+        double costoPeaje=10000;
+        if(isElectrico()){
+            costoPeaje-=costoPeaje*0.20;
+        }
+        if (isPublico()){
+            costoPeaje+=costoPeaje*0.15;
+        }
+        return costoPeaje;
+    }
+
+
+    @Override
+    public String descripcion() {
+        return "Carro - Placa: "+ getPlaca() + "Electrico: " + (electrico ? "Si":"No") + "Publico: "+ (publico ? "Si":"No");
+    }
 }

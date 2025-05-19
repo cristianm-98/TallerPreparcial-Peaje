@@ -15,4 +15,18 @@ public class Moto extends Vehiculo {
     public void setCilindraje(int cilindraje) {
         this.cilindraje = cilindraje;
     }
+
+    @Override
+    public double calcularPeaje() {
+        double costoPeaje=5000;
+        if(cilindraje>200){
+            costoPeaje+=2000;
+        }
+        return costoPeaje;
+    }
+
+    @Override
+    public String descripcion() {
+        return "Moto - Placa: " + getPlaca() + "Cantidad de peajes: " + getCantidadPeaje() +  ", Cilindraje: " + getCilindraje();
+    }
 }

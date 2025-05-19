@@ -25,4 +25,18 @@ public class Camion extends Vehiculo{
     public void setCargaToneladas(double cargaToneladas) {
         this.cargaToneladas = cargaToneladas;
     }
+
+    @Override
+    public double calcularPeaje() {
+        double costoBasePeaje=cantidadEje*7000;
+        if(cargaToneladas>10){
+            costoBasePeaje+=costoBasePeaje*0.10;
+        }
+        return costoBasePeaje;
+    }
+
+    @Override
+    public String descripcion() {
+        return "Camion - Placa: " + getPlaca() + "Cantidad de peaje: " + getCantidadPeaje() + "Cantidad de ejes: " + getCantidadEje() + "Toneladas: " + getCargaToneladas() ;
+    }
 }

@@ -1,6 +1,6 @@
 package co.edu.uniquindio.poo;
 
-public class Vehiculo {
+public abstract class Vehiculo implements ICobrable{
     protected String placa;
     protected int cantidadPeaje;
 
@@ -24,4 +24,8 @@ public class Vehiculo {
     public void setCantidadPeaje(int cantidadPeaje) {
         this.cantidadPeaje = cantidadPeaje;
     }
+
+    //Retorne una cadena descriptiva
+    public abstract String descripcion();
+
 }
