@@ -1,5 +1,7 @@
 package co.edu.uniquindio.poo;
 
+import com.sun.net.httpserver.Request;
+
 import java.sql.ClientInfoStatus;
 import java.time.LocalDate;
 import java.util.LinkedList;
@@ -99,6 +101,25 @@ public class Empresa {
         return true;
     }
 
+    public boolean agregrarRecaudador(Recaudador nuevoRecaudador) {
+        for (Recaudador recaudador : listaRecaudadores) {
+            if (recaudador.getDocumento().equals(nuevoRecaudador.getDocumento())) {
+                return false;
+            }
+        }
+        listaRecaudadores.add(nuevoRecaudador);
+        return true;
+    }
+    public boolean agregarVehiculo(Vehiculo nuevoVehiculo){
+        for(Vehiculo vehiculo:listaVehiculos){
+            if(vehiculo.getPlaca().equals(nuevoVehiculo.getPlaca())){
+                return false;
+            }
+        }
+        listaVehiculos.add(nuevoVehiculo);
+        return true;
+    }
+
     public Conductor buscarConductor(String documento) {
         for (Conductor conductor : listaConductores) {
             if (conductor.getDocumento().equals(documento)) {
@@ -133,7 +154,7 @@ public class Empresa {
     public LinkedList<Conductor> obtenerConductor() {
         return listaConductores;
     }
-
+    //------------------Metodos del trabajo----------------------
     //Asignar vehiculo a una persona
     public boolean asignarVehiculo(String documento, Vehiculo nuevoVehiculo) {
         for (Conductor conductor : listaConductores) {
@@ -168,7 +189,7 @@ public class Empresa {
     public void generarReporteVehiculos() {
         String reporte = "";
         for (Vehiculo vehiculo : listaVehiculos) {
-            reporte += vehiculo.descripcion();
+            reporte += vehiculo.descripcion() +"\n";
         }
         System.out.println(reporte);
     }
@@ -220,9 +241,10 @@ public class Empresa {
 
     //Buscar el recaudador por nombre completo (nombre+apellido)
     public Recaudador buscarRecaudadorPorNombre(String nombreCompleto) {
+        String nombreBuscado = nombreCompleto.trim().toLowerCase().replaceAll("\\s+", "");
         for (Recaudador recaudador : listaRecaudadores) {
             String nombreLimpio = (recaudador.getNombre() + recaudador.getApellido()).trim().toLowerCase().replaceAll("\\s+", "");
-            if (nombreCompleto.equals(nombreLimpio)) {
+            if (nombreBuscado.equals(nombreLimpio)) {
                 return recaudador;
             }
         }

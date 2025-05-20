@@ -27,6 +27,6 @@ public class Moto extends Vehiculo {
 
     @Override
     public String descripcion() {
-        return "Moto - Placa: " + getPlaca() + "Cantidad de peajes: " + getCantidadPeaje() +  ", Cilindraje: " + getCilindraje();
+        return "Moto - Placa: " + getPlaca() + " Cantidad de peajes: " + getCantidadPeaje() +  " Cilindraje: " + getCilindraje();
     }
 }

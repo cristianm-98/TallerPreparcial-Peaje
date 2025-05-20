@@ -2,7 +2,7 @@ package co.edu.uniquindio.poo;
 
 import java.time.LocalDate;
 import java.util.LinkedList;
-import java.util.concurrent.Callable;
+
 
 public class Main {
     public static void main(String[] args) {
@@ -18,66 +18,82 @@ public class Main {
         Camion camion1=new Camion("GQP874",14,5,25);
         Camion camion2=new Camion("ZPO360",5,4,8);
 
+        empresa.agregarVehiculo(carro1);
+        empresa.agregarVehiculo(carro2);
+        empresa.agregarVehiculo(moto1);
+        empresa.agregarVehiculo(moto2);
+        empresa.agregarVehiculo(camion1);
+        empresa.agregarVehiculo(camion2);
+
         //Creacion de los conductores
-        Conductor conductor1=new Conductor("Anderson","Rodriguez","1057410147",LocalDate.of(1990,8,15));
-        conductor1.getListaVehiculos().add(carro1);
-        conductor1.getListaVehiculos().add(moto1);
+        Conductor conductor1=new Conductor("Anderson","Rodriguez","1057",LocalDate.of(1990,8,15));
+        Conductor conductor2=new Conductor("Ana","Benavidez","1007",LocalDate.of(1985,5,25));
+        Conductor conductor3=new Conductor("Carlos","Rodriguez","7474",LocalDate.of(1959,5,30));
+        empresa.agregarConductor(conductor1);
+        empresa.agregarConductor(conductor2);
+        empresa.agregarConductor(conductor3);
 
-        Conductor conductor2=new Conductor("Ana","Benavidez","100741251",LocalDate.of(1985,5,25));
-        conductor2.getListaVehiculos().add(carro2);
-        conductor2.getListaVehiculos().add(camion1);
-
-        Conductor conductor3=new Conductor("Carlos","Rodriguez","7474084",LocalDate.of(1959,5,30));
-        conductor3.getListaVehiculos().add(moto2);
-        conductor3.getListaVehiculos().add(camion2);
 
         //Creacion de los recaudadores
-        Recaudador recaudador1=new Recaudador("Adriana","Rodriguez","110412874",LocalDate.of(1990,8,20),1800000);
-        Recaudador recaudador2=new Recaudador("Dario","Baena","8747142",LocalDate.of(1985,2,28),1800000);
+        Recaudador recaudador1=new Recaudador("Adriana","Rodriguez","1104",LocalDate.of(1990,8,20),1800000);
+        Recaudador recaudador2=new Recaudador("Dario","Baena","8747",LocalDate.of(1985,2,28),1800000);
+        empresa.agregrarRecaudador(recaudador1);
+        empresa.agregrarRecaudador(recaudador2);
 
         //Asignacion de los vehiculos a los conductores
-        empresa.asignarVehiculo("1057410147",carro1);
-        empresa.asignarVehiculo("1057410147",camion1);
-        empresa.asignarVehiculo("100741251",moto1);
-        empresa.asignarVehiculo("100741251",carro2);
-        empresa.asignarVehiculo("7474084",moto2);
-        empresa.asignarVehiculo("7474084",camion2);
+        empresa.asignarVehiculo("1054",carro1);
+        empresa.asignarVehiculo("1054",moto1);
+        empresa.asignarVehiculo("1007",camion1);
+        empresa.asignarVehiculo("1007",carro2);
+        empresa.asignarVehiculo("7474",moto2);
+        empresa.asignarVehiculo("7474",camion2);
+
 
         //Registro del vehiculo por el peaje
+        empresa.registrarPasoVehiculo("ACZ741");
         empresa.registrarPasoVehiculo("MZS230");
-        empresa.registrarPasoVehiculo("GQP874");
+        empresa.registrarPasoVehiculo("ZGT87D");
         empresa.registrarPasoVehiculo("GTU20Q");
-
-        //Generar Reporte
-        System.out.println("=== REPORTE DETALLADO ===");
-        empresa.reporteDetallado();
-        empresa.generarReporteVehiculos();
+        empresa.registrarPasoVehiculo("GQP874");
+        empresa.registrarPasoVehiculo("ZPO360");
 
         //Consulta el total de peaje por persona
-        double totalPeajeCarlos= empresa.consultarTotalPeajePorPersona("7474084");
+        double totalPeajeCarlos= empresa.consultarTotalPeajePorPersona("7474");
         System.out.println("Total de peaje pagado por Carlos es: " + totalPeajeCarlos);
 
         //Obtener vehiculo por conductor y tipo
-        LinkedList<Vehiculo>carroDeCarlos=empresa.obtenerVehiculoPorConductor("7474084","camion");
-        System.out.println("Carros de Carlos");
+        LinkedList<Vehiculo>carroDeCarlos=empresa.obtenerVehiculoPorConductor("7474","camion");
+        System.out.println("los carros de que tiene Carlos ");
         for(Vehiculo vehiculo:carroDeCarlos){
             System.out.println(vehiculo.descripcion());
         }
 
         //Recaudador por nombre completo
-        Recaudador encontrado=empresa.buscarRecaudadorPorNombre("DARIO   BAENA");
+        Recaudador encontrado=empresa.buscarRecaudadorPorNombre("AdrianaRodriguez");
         if(encontrado!=null){
-            System.out.println("Recaudador encontrado " +encontrado.getNombre()+" "+encontrado.getApellido());
+            System.out.println("Recaudador encontrado " +encontrado.getNombre() + " " + encontrado.getApellido());
         }else{
             System.out.println("Recaudador no encontrado");
         }
 
         //Obtener conductores con camiones de mas 10 toneladas
         LinkedList<Conductor>conductoresCamion=empresa.obtenerConductoresConCamionAltoTonelaje();
-        System.out.printf("Conductores con camiones de mas de 10 toneladas");
+        System.out.printf("Conductores con camiones de mas de 10 toneladas: ");
         for(Conductor conductor:conductoresCamion){
-            System.out.printf(conductor.getNombre()+ " " +conductor.getApellido());
+            System.out.printf(conductor.getNombre() + " " + conductor.getApellido());
         }
+
+        //Generar Reporte
+        System.out.println("\n\n=== REPORTE DETALLADO ===");
+        empresa.reporteDetallado();
+        System.out.println("======================="+"\n");
+
+
+        //Generar Reporte Vehiculo
+        System.out.printf("=== REPORTE POR VEHICULO ===="+"\n");
+        empresa.generarReporteVehiculos();
+        System.out.printf("============================"+"\n");
+
 
     }
 }

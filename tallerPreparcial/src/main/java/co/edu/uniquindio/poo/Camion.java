@@ -37,6 +37,6 @@ public class Camion extends Vehiculo{
 
     @Override
     public String descripcion() {
-        return "Camion - Placa: " + getPlaca() + "Cantidad de peaje: " + getCantidadPeaje() + "Cantidad de ejes: " + getCantidadEje() + "Toneladas: " + getCargaToneladas() ;
+        return "Camion - Placa: " + getPlaca() + " Cantidad de peaje: " + getCantidadPeaje() + " Cantidad de ejes: " + getCantidadEje() + " Toneladas: " + getCargaToneladas();
     }
 }

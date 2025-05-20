@@ -41,6 +41,6 @@ public class Carro extends Vehiculo {
 
     @Override
     public String descripcion() {
-        return "Carro - Placa: "+ getPlaca() + "Electrico: " + (electrico ? "Si":"No") + "Publico: "+ (publico ? "Si":"No");
+        return "Carro - Placa: " + getPlaca() + " Electrico: " + (electrico ? "Si":"No") + " Publico: "+ (publico ? "Si ":"No ");
     }
 }
